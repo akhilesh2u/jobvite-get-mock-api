@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+
+	<http:listener-config name="tempworks-bgcheck-httpListenerConfig" host="0.0.0.0" port="8082" doc:name="HTTP Listener Configuration" >
+       <!--  <tls:context>
+            <tls:trust-store  password="${jks.trust.store.password}" type="${jks.trust.key.password}"/>
+            <tls:key-store keyPassword="${jks.trust.store.password}" password="${jks.trust.key.password}" path="${jks.path}"/>
+        </tls:context> -->
+	</http:listener-config>
+
+	
+	<context:property-placeholder
+		location="classpath:/config/verocity-mock-${mule.env}.properties" />
+
+    <flow name="jobvite-get-mock-apiFlow">
+        <http:listener config-ref="tempworks-bgcheck-httpListenerConfig" path="integrations/get" doc:name="HTTP"/>
+        <logger message="Request Payload received to Verocity API:  #[payload]  Received Request Headers: #[message.inboundProperties.toString()]" level="INFO" doc:name="Logger"/>
+        <set-payload value="{
+	&quot;candidates&quot;: [{
+			&quot;address&quot;: &quot;123 Market Street&quot;,
+			&quot;address2&quot;: &quot;&quot;,
+			&quot;application&quot;: {
+				&quot;customField&quot;: [],
+				&quot;eId&quot;: &quot;p3BhEjwn&quot;,
+				&quot;gender&quot;: &quot;Undefined&quot;,
+				&quot;hasArtifacts&quot;: true,
+				&quot;job&quot;: {
+					&quot;company&quot;: &quot;Avenue5 Residential&quot;,
+					&quot;customField&quot;: [{
+						&quot;fieldCode&quot;: &quot;ess_packageid_xbgcvfw8&quot;,
+						&quot;key&quot;: &quot;ESS PackageID&quot;,
+						&quot;value&quot;: &quot;Standard Package&quot;
+					}],
+					&quot;department&quot;: &quot;CO-31000 - Arvada Station&quot;,
+					&quot;eId&quot;: &quot;o3DV4fwp&quot;,
+					&quot;hiringManagers&quot;: [{
+						&quot;firstName&quot;: &quot;John&quot;,
+						&quot;lastName&quot;: &quot;Doe&quot;,
+						&quot;userId&quot;: &quot;skwe5hwV&quot;,
+						&quot;userName&quot;: &quot;jdoe@deverus.com&quot;
+					}],
+					&quot;jobType&quot;: &quot;Full-Time&quot;,
+					&quot;location&quot;: &quot;Arvada Station&quot;,
+					&quot;primaryHiringManager&quot;: {
+						&quot;firstName&quot;: &quot;John&quot;,
+						&quot;lastName&quot;: &quot;Doe&quot;,
+						&quot;userId&quot;: &quot;skwe5hwV&quot;,
+						&quot;userName&quot;: &quot;jdoe@deverus.com&quot;
+					},
+					&quot;requisitionId&quot;: &quot;97&quot;,
+					&quot;subsidiaryId&quot;: &quot;fnV9Vfw6&quot;,
+					&quot;title&quot;: &quot;Assistant Maintenance Supervisor | Arvada Station&quot;
+				},
+				&quot;jobviteChannel&quot;: &quot;Email&quot;,
+				&quot;lastUpdatedDate&quot;: 1490732480643,
+				&quot;race&quot;: &quot;Undefined&quot;,
+				&quot;resume&quot;: {
+					&quot;content&quot;: &quot;None&quot;,
+					&quot;format&quot;: &quot;Text&quot;,
+					&quot;name&quot;: &quot;ExResume.docx&quot;
+				},
+				&quot;sentDate&quot;: 1490726774140,
+				&quot;source&quot;: &quot;Fred Flintstone&quot;,
+				&quot;sourceType&quot;: &quot;Recruiter&quot;,
+				&quot;veteranStatus&quot;: &quot;Undefined&quot;,
+				&quot;workflowState&quot;: &quot;Background Check in Process&quot;
+			},
+			&quot;city&quot;: &quot;San Francisco&quot;,
+			&quot;companyName&quot;: &quot;&quot;,
+			&quot;country&quot;: &quot;USA&quot;,
+			&quot;countryCode&quot;: &quot;USA&quot;,
+			&quot;countryName&quot;: &quot;United States&quot;,
+			&quot;eId&quot;: &quot;ex6vsiwn&quot;,
+			&quot;email&quot;: &quot;duck@example.com&quot;,
+			&quot;firstName&quot;: &quot;Daffy&quot;,
+			&quot;homePhone&quot;: &quot;+1 999-999-9999&quot;,
+			&quot;lastName&quot;: &quot;Duck (TEST)&quot;,
+			&quot;location&quot;: &quot;San Francisco, California United States&quot;,
+			&quot;mobile&quot;: &quot;+1 999-999-9999&quot;,
+			&quot;postalCode&quot;: &quot;94122&quot;,
+			&quot;state&quot;: &quot;California&quot;,
+			&quot;stateCode&quot;: &quot;CA&quot;,
+			&quot;stateName&quot;: &quot;California&quot;,
+			&quot;title&quot;: &quot;&quot;,
+			&quot;workPhone&quot;: &quot;&quot;,
+			&quot;workStatus&quot;: &quot;None&quot;
+		},
+		{
+			&quot;address&quot;: &quot;999 Broadway&quot;,
+			&quot;address2&quot;: &quot;&quot;,
+			&quot;application&quot;: {
+				&quot;customField&quot;: [],
+				&quot;eId&quot;: &quot;p3BhEjwn&quot;,
+				&quot;gender&quot;: &quot;Undefined&quot;,
+				&quot;hasArtifacts&quot;: true,
+				&quot;job&quot;: {
+					&quot;company&quot;: &quot;Avenue5 Residential&quot;,
+					&quot;customField&quot;: [{
+						&quot;fieldCode&quot;: &quot;ess_packageid_xbgcvfw8&quot;,
+						&quot;key&quot;: &quot;ESS PackageID&quot;,
+						&quot;value&quot;: &quot;Standard Package&quot;
+					}],
+					&quot;department&quot;: &quot;CO-31009 - Midtown Station&quot;,
+					&quot;eId&quot;: &quot;tnFJ876&quot;,
+					&quot;hiringManagers&quot;: [{
+						&quot;firstName&quot;: &quot;Ben&quot;,
+						&quot;lastName&quot;: &quot;Bear&quot;,
+						&quot;userId&quot;: &quot;zzzzzz&quot;,
+						&quot;userName&quot;: &quot;bbear@deverus.com&quot;
+					}],
+					&quot;jobType&quot;: &quot;Full-Time&quot;,
+					&quot;location&quot;: &quot;Midtown Station&quot;,
+					&quot;primaryHiringManager&quot;: {
+						&quot;firstName&quot;: &quot;Ben&quot;,
+						&quot;lastName&quot;: &quot;Bear&quot;,
+						&quot;userId&quot;: &quot;zzzzzzz&quot;,
+						&quot;userName&quot;: &quot;jdoe@deverus.com&quot;
+					},
+					&quot;requisitionId&quot;: &quot;97&quot;,
+					&quot;subsidiaryId&quot;: &quot;fnV9Vfw6&quot;,
+					&quot;title&quot;: &quot;Assistant Maintenance Supervisor | Midtown Station&quot;
+				},
+				&quot;jobviteChannel&quot;: &quot;Email&quot;,
+				&quot;lastUpdatedDate&quot;: 1490732480643,
+				&quot;race&quot;: &quot;Undefined&quot;,
+				&quot;resume&quot;: {
+					&quot;content&quot;: &quot;None&quot;,
+					&quot;format&quot;: &quot;Text&quot;,
+					&quot;name&quot;: &quot;ExResume.docx&quot;
+				},
+				&quot;sentDate&quot;: 1490726774140,
+				&quot;source&quot;: &quot;Wilma Flintstone&quot;,
+				&quot;sourceType&quot;: &quot;Recruiter&quot;,
+				&quot;veteranStatus&quot;: &quot;Undefined&quot;,
+				&quot;workflowState&quot;: &quot;Background Check in Process&quot;
+			},
+			&quot;city&quot;: &quot;San Francisco&quot;,
+			&quot;companyName&quot;: &quot;&quot;,
+			&quot;country&quot;: &quot;USA&quot;,
+			&quot;countryCode&quot;: &quot;USA&quot;,
+			&quot;countryName&quot;: &quot;United States&quot;,
+			&quot;eId&quot;: &quot;p3BhEjwn&quot;,
+			&quot;email&quot;: &quot;mmouse@example.com&quot;,
+			&quot;firstName&quot;: &quot;Mickey&quot;,
+			&quot;homePhone&quot;: &quot;+1 999-999-9999&quot;,
+			&quot;lastName&quot;: &quot;Mouse (TEST)&quot;,
+			&quot;location&quot;: &quot;San Francisco, California United States&quot;,
+			&quot;mobile&quot;: &quot;+1 999-999-9999&quot;,
+			&quot;postalCode&quot;: &quot;94122&quot;,
+			&quot;state&quot;: &quot;California&quot;,
+			&quot;stateCode&quot;: &quot;CA&quot;,
+			&quot;stateName&quot;: &quot;California&quot;,
+			&quot;title&quot;: &quot;&quot;,
+			&quot;workPhone&quot;: &quot;&quot;,
+			&quot;workStatus&quot;: &quot;None&quot;
+		}
+	],
+	&quot;total&quot;: 1,
+	&quot;status&quot;: {
+		&quot;code&quot;: 200,
+		&quot;messages&quot;: []
+	}
+}" mimeType="application/json" doc:name="Set Payload"/>
+    </flow>
+</mule>
